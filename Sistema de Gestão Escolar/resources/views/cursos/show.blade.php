@@ -7,16 +7,16 @@
     <title>Cadastro de Cursos/title>
 </head>
 <body>
-    <a href="{{route('clientes.index')}}">Voltar</a>
+    <a href="{{route('cursos.index')}}">Voltar</a>
     <br>
-    <label>ID: </label>{{$dados['id']}}
+    <label>ID: </label>{{$data['id']}}
     <br>
-    <label>Nome: </label>{{$dados['nome']}}
+    <label>Nome: </label>{{$data['nome']}}
     <br>
-    <label>Sigla: </label>{{$dados['sigla']}}
+    <label>Sigla: </label>{{$data['sigla']}}
     <br>
-    <label>Tempo: </label>{{$dados['tempo']}}
+    <label>Tempo: </label>{{$data['tempo']}}
     <br>
-    <label>Eixo: </label>{{$dados['eixo']}}
+    <label>Eixo: </label>{{$data['eixo']}}
 </body>
 </html>

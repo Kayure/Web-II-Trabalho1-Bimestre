@@ -22,8 +22,9 @@
             <tr>
                     <td class="d-none d-md-table-cell">{{ $item -> id }}</td>
                     <td class="d-none d-md-table-cell">{{ $item->nome}}</td>
-                    <td class="d-none d-md-table-cell">{{ $item -> crmv }}</td>
-                    <td class="d-none d-md-table-cell">{{ $item -> especialidade->nome }}</td>                    
+                    <td class="d-none d-md-table-cell">{{ $item -> email }}</td>
+                    <td class="d-none d-md-table-cell">{{ $item -> eixo->nome }}</td>   
+                    <td class="d-none d-md-table-cell">{{ $item -> siape }}</td>                 
                    
                     
                     

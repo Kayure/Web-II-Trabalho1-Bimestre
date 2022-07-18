@@ -11,7 +11,7 @@
             <!-- Utiliza o componente "datalist" criado -->
             <x-cursoDatalist 
                 :header="['ID', 'NOME', 'SIGLA', 'TEMPO','EIXO']" 
-                :data="$dados"
+                :data="$data"
                 :hide="[true, false, true, false, true]" 
             />
 

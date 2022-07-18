@@ -4,118 +4,139 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Professor;
-use App\Models\Curso;
-use App\Models\Disciplina;
-
-
+use App\Models\Eixo;
 
 use function PHPUnit\Framework\isNull;
 
-class ProfessorController extends Controller {
-    
-           
-    
-    public function index() {
+class ProfessorController extends Controller
+{
 
-        $dadosCursos  = Curso::with(['eixo']);
+    public function index()
+    {
 
-        $dadosDisciplinas = Disciplina::with(['curso'])
-            ->orderBy('curso_id')->orderBy('id')->get();
-        
-        $dadosProfessores = Professor::with(['eixo']) -> get();
-       
-        // Passa um array "dados" com os "clientes" e a string "clínicas"
-        return view('professores.index', compact(['dadosCursos', 'dadosDisciplinas', 'dadosCursos']));
-        // return view('cliente.index')->with('dados', $dados)->with('clinica', $clinica);
+        $data = Professor::with(['eixo' => function ($q) {
+            $q->withTrashed();
+        }])->orderBy('id')->get();
+
+        return view('professores.index', compact(['data']));
     }
 
-    public function create() {
-
-        $dados = Professor::orderBy('nome')->get();
+    public function create()
+    {
+        $eixos = Eixo::orderBy('nome')->get();
         return view('professores.create', compact(['eixos']));
     }
 
-    public function store(Request $request) {
+    public function validation(Request $request)
+    {
 
-        $regras = [
-            'nome' => 'required|max:100|min:10',
-            'email' => 'required|max:150|min:15|unique:clientes',
-           
+        $rules = [
+            'nome' => 'required|max:100|min:5',
+            'email' => 'required|unique:professores',
+            'siape' => 'required|min:7',
+            'eixo' => 'required',
+            'radio' => 'required',
+
         ];
 
         $msgs = [
             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
-            "unique" => "Já existe um endereço cadastrado com esse [:attribute]!"
+            "unique" => "O campo [:attribute] pode ter apenas um único registro!"
         ];
 
-        $request->validate($regras, $msgs);
-
-        Professor::create([
-            'nome' => mb_strtoupper($request->nome, 'UTF-8'),
-            'email' => $request->email,
-            'siape' => $request->siape,
-            'eixo_id' => $request->eixo,
-            
-        ]);
-        
-        
-
-        return redirect()->route('professores.index');
+        $request->validate($rules, $msgs);
     }
 
-    public function show($id) {
-        
-        $dados = Professor::find($id);
+    public function store(Request $request)
+    {
 
-        if (!isset($dados)) {
-            return "<h1>ID: $id não encontrado!</h1>";
+        Self::validation($request);
+
+        $eixo = Eixo::find($request->eixo);
+
+        if (isset($eixo)) {
+
+            $obj = new Professor();
+            $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
+            $obj->email = mb_strtolower($request->email, 'UTF-8');
+            $obj->siape = $request->siape;
+            $obj->ativo = $request->radio;
+
+
+            $obj->eixo()->associate($eixo);
+            $obj->save();
+            return redirect()->route('professores.index');
         }
-
-        return view('professores.show', compact('dados'));
     }
 
-    public function edit($id) {
+    public function show($id)
+    {
+    }
 
-        $dados = Professor::find($id);
+    public function edit($id)
+    {
 
-        if (!isset($dados)) {
-            return "<h1>ID: $id não encontrado!</h1>";
+        $eixos = Eixo::orderBy('nome')->get();
+        $data = Professor::with(['eixo' => function ($q) {
+            $q->withTrashed();
+        }])->find($id);
+
+
+        if (isset($data)) {
+            return view('professores.edit', compact(['data', 'eixos']));
         }
-
-        return view('professores.edit', compact('dados'));   
     }
 
-    public function update(Request $request, $id) {
-        
+    public function update(Request $request, $id)
+    {
+
+
+        $rules = [
+            'nome' => 'required|max:100|min:5',
+            'email' => 'required',
+            'siape' => 'required',
+            'radio' => 'required',
+            'eixo' => 'required',
+
+        ];
+        $msgs = [
+            "required" => "O preenchimento do campo [:attribute] é obrigatório!",
+            "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
+            "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
+        ];
+
+        $request->validate($rules, $msgs);
+
+        $eixo = Eixo::find($request->eixo);
+        $obj_prof = Professor::find($id);
+
+        if (isset($eixo) && isset($obj_prof)) {
+
+            $obj_prof->nome = mb_strtoupper($request->nome, 'UTF-8');
+            $obj_prof->email = mb_strtolower($request->email, 'UTF-8');
+            $obj_prof->siape = $request->siape;
+            $obj_prof->ativo = $request->radio;
+            $obj_prof->eixo()->associate($eixo);
+            $obj_prof->save();
+
+
+            return redirect()->route('professores.index');
+        }
+    }
+
+    public function destroy($id)
+    {
         $obj = Professor::find($id);
 
-        if (!isset($obj)) {
-            return "<h1>ID: $id não encontrado!";
+        if (isset($obj)) {
+            $obj->delete();
+        } else {
+            $msg = "Professor";
+            $link = "professores.index";
+            return view('erros.id', compact(['msg', 'link']));
         }
-
-        $obj->fill([
-            'nome' => mb_strtoupper($request->nome, 'UTF-8'),
-            'email' => $request->email,
-            'siape' => $request->siape,
-            'eixo_id' => $request->eixo,         
-        ]);
-
-        $obj->save();
-
-        return redirect()->route('professores.index');
-    }
-
-    public function destroy($id) {
-
-        $obj = Professor::find($id);
-
-        if (!isset($obj)) {
-            return "<h1>ID: $id não encontrado!";
-        }
-
-        $obj->destroy($id);
 
         return redirect()->route('professores.index');
     }

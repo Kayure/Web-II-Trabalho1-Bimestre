@@ -29,3 +29,5 @@ Route::resource('professores', 'ProfessorController');
 Route::resource('cursos', 'CursoController');
 
 Route::resource('disciplinas', 'DisciplinaController');
+
+Route::resource('docencia', 'DocenciaController');

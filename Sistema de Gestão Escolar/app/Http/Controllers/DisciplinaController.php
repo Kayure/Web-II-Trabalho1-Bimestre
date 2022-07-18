@@ -3,109 +3,140 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Professor;
+use App\Models\Disciplina;
+use App\Models\Curso;
+use App\Models\Eixo;
 
-class DisciplinaController extends Controller {
-    
-           
-    
-    public function index() {
-        
-        $dados = Disciplina::with(['curso']) -> get();
-        $clinica = "VetClin DWII";
+use Illuminate\Support\Facades\Log;
 
-        // Passa um array "dados" com os "clientes" e a string "clínicas"
-        return view('disciplinas.index', compact(['dados', 'clinica']));
-        // return view('cliente.index')->with('dados', $dados)->with('clinica', $clinica);
+class DisciplinaController extends Controller
+{
+
+    public function index()
+    {
+
+
+        $data = Disciplina::with(['curso'])
+            ->orderBy('nome')->get();
+        // return json_encode($data);
+        return view('disciplinas.index', compact(['data']));
     }
 
-    public function create() {
+    public function create()
+    {
 
-        return view('disciplinas.create');
+        $cursos = Curso::orderBy('nome')->get();
+        return view('disciplinas.create', compact(['cursos']));
     }
 
-    public function store(Request $request) {
+    public function validation(Request $request)
+    {
 
-        $regras = [
-            'nome' => 'required|max:100|min:10',
-            'email' => 'required|max:150|min:15|unique:clientes',
-           
+        $rules = [
+            'nome' => 'required|max:100|min:5',
+            'carga' => 'required',
+            'curso' => 'required',
         ];
-
         $msgs = [
             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
-            "unique" => "Já existe um endereço cadastrado com esse [:attribute]!"
         ];
 
-        $request->validate($regras, $msgs);
-
-        Professor::create([
-            'nome' => mb_strtoupper($request->nome, 'UTF-8'),
-            'sigla' => $request->siape,
-            'curso_id' => $request->curso,
-            
-            
-            
-        ]);
-        
-        
-
-        return redirect()->route('disciplinas.index');
+        $request->validate($rules, $msgs);
     }
 
-    public function show($id) {
-        
-        $dados = Professor::find($id);
+    public function store(Request $request)
+    {
 
-        if (!isset($dados)) {
-            return "<h1>ID: $id não encontrado!</h1>";
+        self::validation($request);
+
+        $total = Disciplina::where('nome', mb_strtoupper($request->nome, 'UTF-8'))
+            ->where('curso_id', $request->curso)
+            ->count();
+
+        if ($total > 0) {
+            $msg = "Disciplina";
+            $link = "disciplinas.index";
+            return view('erros.duplicado', compact(['msg', 'link']));
         }
 
-        return view('disciplinas.show', compact('dados'));
+        $curso = Curso::find($request->curso);
+        if (isset($curso)) {
+            $obj = new Disciplina();
+            $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
+            $obj->carga = $request->carga;
+            $obj->curso()->associate($curso);
+            $obj->save();
+            return redirect()->route('disciplinas.index');
+        }
+
+        $msg = "Curso e/ou Área do Conhecimento";
+        $link = "disciplinas.index";
+        return view('erros.id', compact(['msg', 'link']));
     }
 
-    public function edit($id) {
-
-        $dados = Professor::find($id);
-
-        if (!isset($dados)) {
-            return "<h1>ID: $id não encontrado!</h1>";
-        }
-
-        return view('disciplinas.edit', compact('dados'));   
+    public function show($id)
+    {
     }
 
-    public function update(Request $request, $id) {
-        
-        $obj = Professor::find($id);
+    public function edit($id)
+    {
+        $cursos = Curso::orderBy('nome')->get();
+        $data = Disciplina::find($id);
 
-        if (!isset($obj)) {
-            return "<h1>ID: $id não encontrado!";
+        if (isset($data)) {
+            return view('disciplinas.edit', compact(['data', 'cursos']));
+        } else {
+            $msg = "Disciplina";
+            $link = "disciplinas.index";
+            return view('erros.id', compact(['msg', 'link']));
         }
-
-        $obj->fill([
-            'nome' => mb_strtoupper($request->nome, 'UTF-8'),
-            'sigla' => $request->siape,
-            'curso_id' => $request->curso,
-                    
-        ]);
-
-        $obj->save();
-
-        return redirect()->route('disciplinas.index');
     }
 
-    public function destroy($id) {
+    public function update(Request $request, $id)
+    {
 
-        $obj = Professor::find($id);
+        self::validation($request);
 
-        if (!isset($obj)) {
-            return "<h1>ID: $id não encontrado!";
+        $total = Disciplina::where('nome', mb_strtoupper($request->nome, 'UTF-8'))
+            ->where('curso_id', $request->curso)
+            ->count();
+
+        if ($total > 0) {
+            $msg = "Disciplina";
+            $link = "disciplinas.index";
+            return view('erros.duplicado', compact(['msg', 'link']));
         }
 
-        $obj->destroy($id);
+        $curso = Curso::find($request->curso);
+        $obj = Disciplina::find($id);
+
+        if (isset($obj) && isset($curso)) {
+            $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
+            $obj->carga = $request->carga;
+            $obj->curso()->associate($curso);
+            $obj->save();
+            return redirect()->route('disciplinas.index');
+        }
+
+        $msg = "Disciplina e/ou Curso e/ou Área do Conhecimento";
+        $link = "disciplinas.index";
+        return view('erros.id', compact(['msg', 'link']));
+    }
+
+    public function destroy($id)
+    {
+
+        $obj = Disciplina::find($id);
+
+        if (isset($obj)) {
+            $obj->delete();
+        } else {
+            $msg = "Disciplina";
+            $link = "disciplinas.index";
+            return view('erros.id', compact(['msg', 'link']));
+        }
 
         return redirect()->route('disciplinas.index');
     }

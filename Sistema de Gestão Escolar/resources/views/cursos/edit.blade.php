@@ -1,30 +1,30 @@
 <!-- Herda o layout padrão definido no template "main" -->
-@extends('templates.main', ['titulo' => "Alterar Cliente"])
+@extends('templates.main', ['titulo' => "Alterar Curso"])
 <!-- Preenche o conteúdo da seção "titulo" -->
 @section('titulo') Clientes @endsection
 <!-- Preenche o conteúdo da seção "conteudo" -->
 @section('conteudo')
 
-<form action="{{ route('cursos.update', $dados['id']) }}" method="POST">
+<form action="{{ route('cursos.update', $data->id) }}" method="POST">
     @csrf
     @method('PUT')
     <div class="row">
         <div class="col" >
             <div class="form-floating mb-3">
-            <input type="text" class="form-control {{ $errors->has('nome') ? 'is-invalid' : '' }}" name="nome" placeholder="Nome" value="{{$dados['nome']}}" />
+            <input type="text" class="form-control {{ $errors->has('nome') ? 'is-invalid' : '' }}" name="nome" placeholder="Nome" value="{{$data['nome']}}" />
                 @if($errors->has('nome'))
                         <div class='invalid-feedback'>
                             {{ $errors->first('nome') }}
                         </div>
                 @endif
-                <label for="nome">Nome do Cliente</label>
+                <label for="nome">Nome do Curso</label>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col" >
             <div class="form-floating mb-3">
-                <input type="text" class="form-control {{ $errors->has('sigla') ? 'is-invalid' : '' }}" name="sigla" placeholder="Sigla" value="{{$dados['sigla']}}" />
+                <input type="text" class="form-control {{ $errors->has('sigla') ? 'is-invalid' : '' }}" name="sigla" placeholder="Sigla" value="{{$data['sigla']}}" />
                     @if($errors->has('sigla'))
                         <div class='invalid-feedback'>
                             {{ $errors->first('sigla') }}
@@ -37,29 +37,36 @@
     <div class="row">
         <div class="col" >
             <div class="form-floating mb-3">
-            <input type="number" class="form-control {{ $errors->has('tempo') ? 'is-invalid' : '' }}" name="tempo" placeholder="Tempo" value="{{$dados['tempo']}}" />
+            <input type="number" class="form-control {{ $errors->has('tempo') ? 'is-invalid' : '' }}" name="tempo" placeholder="Tempo" value="{{$data['tempo']}}" />
                 @if($errors->has('tempo'))
                         <div class='invalid-feedback'>
                             {{ $errors->first('tempo') }}
                         </div>
                 @endif
-                <label for="nome">Tempo</label>
+                <label for="nome">Tempo (anos)</label>
             </div>
         </div>
     </div>
     <div class="row">
-            <div class="col" >
-                <div class="form-floating mb-3">
-                <select name="eixo" class="form-select" class="form-control @if($errors->has('eixo')) is-invalid @endif">
-                    @foreach ($dados as $item)
-                    <option value="{{$item->id}}" @if($item->id == old('eixo')) selected="true" @endif>
-                        {{ $item->nome }}
-                    </option>
-                    @endforeach
-                </select>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text bg-dark text-white">Eixo</span>
+                        <select name="eixo" class="form-select @if($errors->has('eixo')) is-invalid @endif">
+                            @foreach ($eixos as $item)
+                            <option value="{{$item->id}}" @if($item->id == $data->eixo_id) selected="true" @endif>
+                                {{ $item->nome }}
+                            </option>
+                            @endforeach
+
+                        </select>
+                        @if($errors->has('eixo'))
+                        <div class='invalid-feedback'>
+                            {{ $errors->first('eixo') }}
+                        </div>
+                        @endif
+                    </div>
                 </div>
             </div>
-        </div>
     <div class="row">
         <div class="col">
             <a href="{{route('cursos.index')}}" class="btn btn-secondary btn-block align-content-center">

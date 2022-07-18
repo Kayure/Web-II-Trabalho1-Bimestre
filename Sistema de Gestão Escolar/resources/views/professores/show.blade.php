@@ -9,14 +9,12 @@
 <body>
     <a href="{{route('professores.index')}}">Voltar</a>
     <br>
-    <label>ID: </label>{{$dados['id']}}
+    <label>ID: </label>{{$data['id']}}
     <br>
-    <label>Nome: </label>{{$dados['nome']}}
+    <label>Nome: </label>{{$data['nome']}}
     <br>
-    <label>Sigla: </label>{{$dados['sigla']}}
-    <br>
-    <label>Tempo: </label>{{$dados['tempo']}}
-    <br>
-    <label>Eixo: </label>{{$dados['eixo']}}
+    <label>E-mail: </label>{{$data['email']}}
+    <br>    
+    <label>Eixo: </label>{{$data['eixo']}}
 </body>
 </html>
