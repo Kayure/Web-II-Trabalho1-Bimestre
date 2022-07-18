@@ -30,4 +30,4 @@ Route::resource('cursos', 'CursoController');
 
 Route::resource('disciplinas', 'DisciplinaController');
 
-Route::resource('docencia', 'DocenciaController');
+Route::resource('docencias', 'DocenciaController');

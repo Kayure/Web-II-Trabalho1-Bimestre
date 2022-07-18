@@ -68,6 +68,7 @@
                             <li><a href="{{route('eixos.index')}}" class="dropdown-item">Eixos</a></li>
 
                             <li><a href="{{route('cursos.index')}}" class="dropdown-item">Cursos</a></li>
+                            <li><a href="{{route('docencias.index')}}" class="dropdown-item">Docencia</a></li>
 
                         </ul>
                     </li>

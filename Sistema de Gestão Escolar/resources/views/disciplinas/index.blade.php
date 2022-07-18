@@ -11,7 +11,7 @@
             <!-- Utiliza o componente "datalist" criado -->
             <x-disciplinaDatalist 
                 :header="['ID', 'NOME', 'CURSO', 'SIGLA']" 
-                :data="$dados"
+                :data="$data"
                 :hide="[true, false, true, false]" 
             />
 

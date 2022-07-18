@@ -48,21 +48,24 @@
         </div>
     </div>
     <div class="row">
-                <div class="col">
+                <div class="col" >
                     <div class="input-group mb-3">
                         <span class="input-group-text bg-dark text-white">Eixo</span>
-                        <select name="eixo" class="form-select @if($errors->has('eixo')) is-invalid @endif">
+                        <select 
+                            name="eixo"
+                            class="form-select"
+                            class="form-control @if($errors->has('eixo')) is-invalid @endif" 
+                        >
                             @foreach ($eixos as $item)
-                            <option value="{{$item->id}}" @if($item->id == $data->eixo_id) selected="true" @endif>
-                                {{ $item->nome }}
-                            </option>
+                                <option value="{{$item->id}}" @if($item->id == old('eixo')) selected="true" @endif>
+                                    {{ $item->nome }}
+                                </option>
                             @endforeach
-
                         </select>
                         @if($errors->has('eixo'))
-                        <div class='invalid-feedback'>
-                            {{ $errors->first('eixo') }}
-                        </div>
+                            <div class='invalid-feedback'>
+                                {{ $errors->first('eixo') }}
+                            </div>
                         @endif
                     </div>
                 </div>

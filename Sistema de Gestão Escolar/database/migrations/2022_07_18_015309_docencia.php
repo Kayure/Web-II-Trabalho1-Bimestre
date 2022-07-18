@@ -19,9 +19,9 @@ class Docencia extends Migration
             $table->foreign('professor_id')->references('id')->on('professores');
             $table->unsignedBigInteger('disciplina_id');
             $table->foreign('disciplina_id')->references('id')->on('disciplinas');
-            $table->integer('ano');
+            
 
-           // $table->primary(['professor_id', 'disciplina_id']);
+           //$table->primary(['professor_id', 'disciplina_id']);
             $table->timestamps();
         });
     }

@@ -1,11 +1,9 @@
-@extends('templates/main')
-
+@extends('templates.main', ['titulo' => "Docencia", 'rota' => "docencias.index"])
+<!-- Preenche o conteúdo da seção "titulo" -->
+@section('titulo') Docencia @endsection
+<!-- Preenche o conteúdo da seção "conteudo" -->
 @section('conteudo')
-<div class="row mb-2">
-    <div class="col">
-        <h3 class="display-7 text-secondary d-none d-md-block"><b>Docência </b></h3>
-    </div>
-</div>
+
 <div class="row mb-3">
     <div class="col">
         <table class="table align-middle caption-top table-striped" id="tabela">

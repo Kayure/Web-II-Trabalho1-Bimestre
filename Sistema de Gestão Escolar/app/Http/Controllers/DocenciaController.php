@@ -51,7 +51,6 @@ class DocenciaController extends Controller
         for ($i = 0; $i < count($ids_prof); $i++) {
             $doc->professor_id = $ids_prof[$i];
             $doc->disciplina_id = $disciplina[$i];
-            $doc->ano = '';
             $doc->save();
         }
 
