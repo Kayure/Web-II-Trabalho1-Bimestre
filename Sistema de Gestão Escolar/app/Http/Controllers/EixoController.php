@@ -12,10 +12,10 @@ class EixoController extends Controller {
     public function index() {
         
         $dados = Eixo::all();
-        $clinica = "VetClin DWII";
+        
 
         // Passa um array "dados" com os "clientes" e a string "clínicas"
-        return view('eixos.index', compact(['dados', 'clinica']));
+        return view('eixos.index', compact(['dados']));
         // return view('cliente.index')->with('dados', $dados)->with('clinica', $clinica);
     }
 
@@ -26,37 +26,36 @@ class EixoController extends Controller {
 
     public function store(Request $request) {
 
-        $regras = [
-            'nome' => 'required|max:100|min:10',
-            'email' => 'required|max:150|min:15|unique:clientes',
-           
-        ];
+        self::validation($request);
 
+       
+
+        Eixo::create(['nome' =>  mb_strtoupper($request->nome, 'UTF-8')]);
+        return redirect()->route('eixos.index');
+            
+        
+        
+        
+
+        
+    }
+
+    public function validation(Request $request) {
+        $regras = [
+            'nome' => 'required|max:100|min:5',
+        ];
         $msgs = [
             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
-            "unique" => "Já existe um endereço cadastrado com esse [:attribute]!"
         ];
 
         $request->validate($regras, $msgs);
-
-        Professor::create([
-            'nome' => mb_strtoupper($request->nome, 'UTF-8'),
-            'email' => $request->email,
-            'siape' => $request->siape,
-            'eixo_id' => $request->eixo,
-            
-        ]);
-        
-        
-
-        return redirect()->route('professores.index');
     }
 
     public function show($id) {
         
-        $dados = Professor::find($id);
+        $dados = Eixo::find($id);
 
         if (!isset($dados)) {
             return "<h1>ID: $id não encontrado!</h1>";
@@ -67,7 +66,7 @@ class EixoController extends Controller {
 
     public function edit($id) {
 
-        $dados = Professor::find($id);
+        $dados = Eixo::find($id);
 
         if (!isset($dados)) {
             return "<h1>ID: $id não encontrado!</h1>";
@@ -77,8 +76,10 @@ class EixoController extends Controller {
     }
 
     public function update(Request $request, $id) {
+
+        self::validation($request);
         
-        $obj = Professor::find($id);
+        $obj = Eixo::find($id);
 
         if (!isset($obj)) {
             return "<h1>ID: $id não encontrado!";
@@ -86,9 +87,7 @@ class EixoController extends Controller {
 
         $obj->fill([
             'nome' => mb_strtoupper($request->nome, 'UTF-8'),
-            'email' => $request->email,
-            'siape' => $request->siape,
-            'eixo_id' => $request->eixo,         
+                
         ]);
 
         $obj->save();
@@ -98,7 +97,7 @@ class EixoController extends Controller {
 
     public function destroy($id) {
 
-        $obj = Professor::find($id);
+        $obj = Eixo::find($id);
 
         if (!isset($obj)) {
             return "<h1>ID: $id não encontrado!";

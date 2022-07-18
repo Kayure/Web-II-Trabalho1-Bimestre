@@ -14,4 +14,8 @@ class Professor extends Model {
     protected $table = "professores";
 
     protected $fillable = ['nome', 'email', 'siape','eixo','ativo'];
+
+    public function eixo() {
+        return $this->belongsTo('\App\Models\Eixo');
+    }
 }

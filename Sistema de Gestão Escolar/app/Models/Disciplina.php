@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Endereco extends Model {
+class Disciplina extends Model {
 
     use HasFactory;
     use SoftDeletes;
+    
+    protected $table = "disciplinas";
 
-    protected $fillable = ['rua', 'numero', 'cep'];
+    protected $fillable = ['nome', 'curso', 'sigla'];
 }

@@ -1,7 +1,7 @@
 <!-- Herda o layout padrão definido no template "main" -->
-@extends('templates.main', ['titulo' => "Cursos", 'rota' => "cursos.create"])
+@extends('templates.main', ['titulo' => "Eixos", 'rota' => "eixos.create"])
 <!-- Preenche o conteúdo da seção "titulo" -->
-@section('titulo') Cursos @endsection
+@section('titulo') Eixos @endsection
 <!-- Preenche o conteúdo da seção "conteudo" -->
 @section('conteudo')
 
@@ -9,10 +9,10 @@
         <div class="col">
             
             <!-- Utiliza o componente "datalist" criado -->
-            <x-cursoDatalist 
-                :header="['ID', 'NOME', 'SIGLA', 'TEMPO','EIXO']" 
+            <x-eixoDatalist 
+                :header="['ID', 'NOME','AÇÕES']" 
                 :data="$dados"
-                :hide="[true, false, true, false, true]" 
+                :hide="[true, false, true]" 
             />
 
         </div>

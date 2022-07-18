@@ -4,24 +4,35 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Professor;
+use App\Models\Curso;
+use App\Models\Disciplina;
+
+
+
+use function PHPUnit\Framework\isNull;
 
 class ProfessorController extends Controller {
     
            
     
     public function index() {
-        
-        $dados = Professor::with(['eixo']) -> get();
-        $clinica = "VetClin DWII";
 
+        $dadosCursos  = Curso::with(['eixo']);
+
+        $dadosDisciplinas = Disciplina::with(['curso'])
+            ->orderBy('curso_id')->orderBy('id')->get();
+        
+        $dadosProfessores = Professor::with(['eixo']) -> get();
+       
         // Passa um array "dados" com os "clientes" e a string "clínicas"
-        return view('professores.index', compact(['dados', 'clinica']));
+        return view('professores.index', compact(['dadosCursos', 'dadosDisciplinas', 'dadosCursos']));
         // return view('cliente.index')->with('dados', $dados)->with('clinica', $clinica);
     }
 
     public function create() {
 
-        return view('professores.create');
+        $dados = Professor::orderBy('nome')->get();
+        return view('professores.create', compact(['eixos']));
     }
 
     public function store(Request $request) {

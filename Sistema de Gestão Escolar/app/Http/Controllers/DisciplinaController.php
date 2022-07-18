@@ -11,7 +11,7 @@ class DisciplinaController extends Controller {
     
     public function index() {
         
-        $dados = Professor::with(['eixo']) -> get();
+        $dados = Disciplina::with(['curso']) -> get();
         $clinica = "VetClin DWII";
 
         // Passa um array "dados" com os "clientes" e a string "clínicas"
@@ -43,9 +43,10 @@ class DisciplinaController extends Controller {
 
         Professor::create([
             'nome' => mb_strtoupper($request->nome, 'UTF-8'),
-            'email' => $request->email,
-            'siape' => $request->siape,
-            'eixo_id' => $request->eixo,
+            'sigla' => $request->siape,
+            'curso_id' => $request->curso,
+            
+            
             
         ]);
         
@@ -86,9 +87,9 @@ class DisciplinaController extends Controller {
 
         $obj->fill([
             'nome' => mb_strtoupper($request->nome, 'UTF-8'),
-            'email' => $request->email,
-            'siape' => $request->siape,
-            'eixo_id' => $request->eixo,         
+            'sigla' => $request->siape,
+            'curso_id' => $request->curso,
+                    
         ]);
 
         $obj->save();
