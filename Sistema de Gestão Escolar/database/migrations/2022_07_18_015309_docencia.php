@@ -21,7 +21,7 @@ class Docencia extends Migration
             $table->foreign('disciplina_id')->references('id')->on('disciplinas');
             
 
-           //$table->primary(['professor_id', 'disciplina_id']);
+           
             $table->timestamps();
         });
     }

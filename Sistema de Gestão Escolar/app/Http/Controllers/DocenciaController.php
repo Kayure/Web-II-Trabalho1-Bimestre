@@ -18,11 +18,11 @@ class DocenciaController extends Controller
         $cursos  = Curso::with(['eixo']);
 
         $disciplinas = Disciplina::with(['curso'])
-            ->orderBy('curso_id')->orderBy('id')->get();
+        ->orderBy('nome')->get();
 
-        $profs = Professor::orderBy('id')->get();
+        $professores = Professor::orderBy('id')->get();
 
-        return view('docencias.index', compact(['profs', 'disciplinas', 'cursos']));
+        return view('docencias.index', compact(['professores', 'disciplinas', 'cursos']));
     }
 
     public function create(Request $request)
@@ -32,8 +32,9 @@ class DocenciaController extends Controller
     public function store(Request $request)
     {
 
-        $rules = [
+        $regras = [
             'PROFESSOR_ID_SELECTED' => 'required',
+            'DISCIPLINA' => 'required',
         ];
         $msgs = [
             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
@@ -41,7 +42,7 @@ class DocenciaController extends Controller
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
         ];
 
-        $request->validate($rules, $msgs);
+        $request->validate($regras, $msgs);
 
         $ids_prof = $request->PROFESSOR_ID_SELECTED;
         $disciplina = $request->DISCIPLINA;

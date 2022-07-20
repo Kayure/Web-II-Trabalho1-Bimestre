@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-secondary">
+    <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
             <a href="{{route('index')}}" class="navbar-brand ms-sm-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-book-half" viewBox="0 0 16 16">
@@ -31,6 +31,8 @@
                 </svg>
             </button>
 
+
+
             <div class="collapse navbar-collapse" id="itens">
 
                 <ul class="navbar-nav ms-auto">
@@ -43,13 +45,28 @@
                             <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
                             <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
                             </svg>
-                            <span  class="ps-1 text-white">Professores</span>
+                            <span class="ps-1 text-white">Professores</span>
 
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="{{route('professores.index')}}" class="dropdown-item">Professores</a></li>
                             <li><a href="{{route('disciplinas.index')}}" class="dropdown-item">Disciplinas</a></li>
 
+
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown ps-2">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+                                <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+                            </svg>
+                            <span class="ps-1 text-white">Docencia</span>
+
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li><a href="{{route('docencias.index')}}" class="dropdown-item">Disciplina / Professor </a></li>
 
                         </ul>
                     </li>
@@ -68,7 +85,7 @@
                             <li><a href="{{route('eixos.index')}}" class="dropdown-item">Eixos</a></li>
 
                             <li><a href="{{route('cursos.index')}}" class="dropdown-item">Cursos</a></li>
-                            <li><a href="{{route('docencias.index')}}" class="dropdown-item">Docencia</a></li>
+
 
                         </ul>
                     </li>
@@ -91,7 +108,7 @@
             </div>
             @if(isset($rota))
             <div class="col d-flex justify-content-end">
-                <a href="{{ route($rota) }}" class="btn btn-secondary">
+                <a href="{{ route($rota) }}" class="btn btn-dark">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
                     </svg>
@@ -102,7 +119,7 @@
         <hr>
         @yield('conteudo')
     </div>
-    <nav class="navbar fixed-bottom navbar-dark bg-secondary">
+    <nav class="navbar fixed-bottom navbar-dark bg-dark">
         <div class="container-fluid">
             <span class="text-white fw-light">&copy; Luccas Kayure Crisanto</span>
         </div>

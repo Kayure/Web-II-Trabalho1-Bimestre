@@ -10,9 +10,9 @@
             
             <!-- Utiliza o componente "datalist" criado -->
             <x-disciplinaDatalist 
-                :header="['ID', 'NOME', 'CURSO', 'SIGLA']" 
+                :header="['NOME', 'CURSO', 'CARGA','AÇÕES']" 
                 :data="$data"
-                :hide="[true, false, true, false]" 
+                :hide="[true, false, true, false,false]" 
             />
 
         </div>

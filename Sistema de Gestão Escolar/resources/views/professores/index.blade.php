@@ -10,7 +10,7 @@
             
             <!-- Utiliza o componente "datalist" criado -->
             <x-professorDatalist 
-                :header="['ID','STATUS', 'NOME', 'EMAIL', 'EIXO','SIAPE','AÇÕES']" 
+                :header="['STATUS','ID', 'NOME', 'EMAIL', 'EIXO','SIAPE','AÇÕES']" 
                 :data="$data"
                 :hide="[true, true, false, true, false, true, true]" 
             />

@@ -21,17 +21,22 @@
                         <tr>
                             <td scope="col" class="text-center col-md-6 ">
                                 <div class="input-group mb-3">
-                                    <input type="hidden" readonly class="form-control-plaintext" name="DISCIPLINA[]" value="{{$disciplina->id}}">
+                                    <input type="hidden" 
+                                        readonly class="form-control-plaintext" 
+                                        name="DISCIPLINA[]" 
+                                        value="{{$disciplina->id}}"
+                                    >
                                     {{$disciplina->nome}}
                                 </div>
                             </td>
                             <td scope="col" class="text-center">
-                                <select name="PROFESSOR_ID_SELECTED[]" class="form-select @if($errors->has('PROFESSOR_ID_SELECTED')) is-invalid @endif" class="form-control ">
-                                    @foreach ($profs as $item)
+                                <select name="PROFESSOR_ID_SELECTED[]"
+                                    class="form-select @if($errors->has('PROFESSOR_ID_SELECTED')) is-invalid @endif" class="form-control ">
+                                    @foreach ($professores as $item)
                                         @if($item->ativo == 1)
-                                        <option value="{{$item->id}}" @if($item->id == old('profs')) selected="true" @endif>
-                                            {{ $item->nome }}
-                                        </option>
+                                            <option value="{{$item->id}}" @if($item->id == old('professores')) selected="true" @endif>
+                                                {{ $item->nome }}
+                                            </option>
                                         @endif
                                     @endforeach
                                 </select>

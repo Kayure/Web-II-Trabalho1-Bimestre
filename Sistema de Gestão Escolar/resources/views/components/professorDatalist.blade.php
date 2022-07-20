@@ -19,9 +19,10 @@
         </thead>
         <tbody>
             @foreach ($data as $item)
-            <tr>
-                    <td class="d-none d-md-table-cell">{{ $item -> id }}</td>
-                    <td class="d-none d-md-table-cell">@if($item->ativo == 1) ATIVO @else INATIVO @endif</td>
+            <tr> 
+                
+                    <td class="d-none d-md-table-cell">@if($item->ativo == 1) ✔ @else ❌ @endif</td>
+                    <td class="d-none d-md-table-cell">{{ $item -> id }}</td>                   
                     <td class="d-none d-md-table-cell">{{ $item->nome}}</td>
                     <td class="d-none d-md-table-cell">{{ $item -> email }}</td>
                     <td class="d-none d-md-table-cell">{{ $item -> eixo->nome }}</td>   

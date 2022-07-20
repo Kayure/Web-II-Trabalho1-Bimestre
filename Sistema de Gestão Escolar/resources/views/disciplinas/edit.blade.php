@@ -9,8 +9,7 @@
     @csrf
     @method('PUT')
     <div class="row">
-        <div class="container my-3">
-            <h3 class="display-7 text-secondary"><b>Alterar Disciplina</b></h3>
+        <div class="container my-3">            
             <div class="row">
                 <div class="col" >
                     <div class="form-floating mb-3">
@@ -64,7 +63,7 @@
                             placeholder="Carga Horária"
                             value="{{$data->carga}}"
                         />
-                        <label for="carga">Carga Horária (nr. aulas)</label>
+                        <label for="carga">Carga Horária (hora/aula)</label>
                         @if($errors->has('carga'))
                             <div class='invalid-feedback'>
                                 {{ $errors->first('carga') }}

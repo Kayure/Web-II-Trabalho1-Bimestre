@@ -3,22 +3,29 @@
     <div class="col">
         <table class="table align-middle caption-top table-striped">
             <caption>Tabela de <b>Cursos</b></caption>
-            <thead>
+            <thead>           
             <tr>
-                <th scope="col">NOME</th>
-                <th scope="col" class="d-none d-md-table-cell">SIGLA</th>
-                <th scope="col" class="d-none d-md-table-cell">TEMPO(anos)</th>
-                <th scope="col" class="d-none d-md-table-cell">EIXO</th>
-                <th scope="col">AÇÕES</th>
-            </tr>
+            @php $cont=0; @endphp
+            @foreach ($header as $item)
+
+                @if($hide[$cont])
+                    <th scope="col" class="d-none d-md-table-cell">{{ $item }}</th>
+                @else
+                    <th scope="col">{{ $item }}</th>
+                @endif
+                @php $cont++; @endphp
+
+            @endforeach
+        </tr>
             </thead>
             <tbody>
                 @foreach ($data as $item)
                     <tr>
-                        <td>{{ $item->nome }}</td>
-                        <td>{{ $item->sigla }}</td>
-                        <td>{{ $item->tempo }}</td>
-                        <td>{{ $item->eixo->nome }}</td>
+                    <td class="d-none d-md-table-cell">{{ $item -> nome }}</td>
+                    <td class="d-none d-md-table-cell">{{ $item -> sigla }}</td>
+                    <td class="d-none d-md-table-cell">{{ $item -> tempo }}</td>
+                    <td class="d-none d-md-table-cell">{{ $item -> eixo->nome }}</td>
+                        
                        
                        <td>
                         <a href= "{{ route('cursos.edit', $item->id) }}" class="btn btn-success">

@@ -15,9 +15,10 @@ class CursoController extends Controller
      */
     public function index()
     {
-        $data = Curso::with(['eixo' => function ($q) {
-            $q->withTrashed();
-        }])->orderBy('nome')->get();
+        $data = Curso::with(['eixo'])
+        ->orderBy('nome')->get();
+
+        
 
         return view('cursos.index', compact(['data']));
     }
