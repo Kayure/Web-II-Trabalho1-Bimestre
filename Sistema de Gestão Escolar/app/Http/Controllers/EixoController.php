@@ -26,23 +26,18 @@ class EixoController extends Controller {
 
     public function store(Request $request) {
 
-        self::validation($request);
-
-       
+        self::validation($request);       
 
         Eixo::create(['nome' =>  mb_strtoupper($request->nome, 'UTF-8')]);
         return redirect()->route('eixos.index');
-            
-        
-        
-        
-
+                    
         
     }
 
     public function validation(Request $request) {
+
         $regras = [
-            'nome' => 'required|max:100|min:5',
+            'nome' => 'required|max:50|min:5',
         ];
         $msgs = [
             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
@@ -85,6 +80,7 @@ class EixoController extends Controller {
             return "<h1>ID: $id não encontrado!";
         }
 
+        //PREENCHE OS CAMPOS COM OS DADOS DO CAMPO SELECIONADO
         $obj->fill([
             'nome' => mb_strtoupper($request->nome, 'UTF-8'),
                 

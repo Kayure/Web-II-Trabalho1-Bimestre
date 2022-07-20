@@ -33,6 +33,7 @@
                                 <select name="PROFESSOR_ID_SELECTED[]"
                                     class="form-select @if($errors->has('PROFESSOR_ID_SELECTED')) is-invalid @endif" class="form-control ">
                                     @foreach ($professores as $item)
+                                        <!-- LISTA APENAS OS PROFESSORES ATIVOS -->
                                         @if($item->ativo == 1)
                                             <option value="{{$item->id}}" @if($item->id == old('professores')) selected="true" @endif>
                                                 {{ $item->nome }}

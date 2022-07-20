@@ -18,7 +18,7 @@ class DisciplinaController extends Controller
 
         $data = Disciplina::with(['curso'])
             ->orderBy('nome')->get();
-        // return json_encode($data);
+        
         return view('disciplinas.index', compact(['data']));
     }
 
@@ -32,10 +32,10 @@ class DisciplinaController extends Controller
     public function validation(Request $request)
     {
 
-        $rules = [
-            'nome' => 'required|max:100|min:5',
+        $regras = [
+            'nome' => 'required|max:100|min:10',
             'carga' => 'required',
-            'curso' => 'required',
+            'curso' => 'required|max:12|min:1',
         ];
         $msgs = [
             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
@@ -43,7 +43,7 @@ class DisciplinaController extends Controller
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
         ];
 
-        $request->validate($rules, $msgs);
+        $request->validate($regras, $msgs);
     }
 
     public function store(Request $request)
@@ -55,11 +55,7 @@ class DisciplinaController extends Controller
             ->where('curso_id', $request->curso)
             ->count();
 
-        if ($total > 0) {
-            $msg = "Disciplina";
-            $link = "disciplinas.index";
-            return view('erros.duplicado', compact(['msg', 'link']));
-        }
+        
 
         $curso = Curso::find($request->curso);
         if (isset($curso)) {
@@ -70,10 +66,8 @@ class DisciplinaController extends Controller
             $obj->save();
             return redirect()->route('disciplinas.index');
         }
-
-        $msg = "Curso e/ou Área do Conhecimento";
-        $link = "disciplinas.index";
-        return view('erros.id', compact(['msg', 'link']));
+        
+        return redirect()->route('disciplinas.index');
     }
 
     public function show($id)
@@ -99,19 +93,12 @@ class DisciplinaController extends Controller
 
         self::validation($request);
 
-        $total = Disciplina::where('nome', mb_strtoupper($request->nome, 'UTF-8'))
-            ->where('curso_id', $request->curso)
-            ->count();
-
-        if ($total > 0) {
-            $msg = "Disciplina";
-            $link = "disciplinas.index";
-            return view('erros.duplicado', compact(['msg', 'link']));
-        }
+        
 
         $curso = Curso::find($request->curso);
         $obj = Disciplina::find($id);
 
+        //PREENCHE OS CAMPOS COM OS DADOS DA DISCIPLINA SELECIONADA
         if (isset($obj) && isset($curso)) {
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
             $obj->carga = $request->carga;
@@ -120,9 +107,8 @@ class DisciplinaController extends Controller
             return redirect()->route('disciplinas.index');
         }
 
-        $msg = "Disciplina e/ou Curso e/ou Área do Conhecimento";
-        $link = "disciplinas.index";
-        return view('erros.id', compact(['msg', 'link']));
+        
+        return redirect()->route('disciplinas.index');
     }
 
     public function destroy($id)

@@ -26,10 +26,7 @@
                     <td class="d-none d-md-table-cell">{{ $item->nome}}</td>
                     <td class="d-none d-md-table-cell">{{ $item -> email }}</td>
                     <td class="d-none d-md-table-cell">{{ $item -> eixo->nome }}</td>   
-                    <td class="d-none d-md-table-cell">{{ $item -> siape }}</td>                 
-                   
-                    
-                    
+                    <td class="d-none d-md-table-cell">{{ $item -> siape }}</td>  
                     
                     <td>
                         <a href= "{{ route('professores.edit', $item['id']) }}" class="btn btn-success">

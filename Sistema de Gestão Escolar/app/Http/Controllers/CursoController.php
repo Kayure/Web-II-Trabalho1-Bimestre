@@ -78,9 +78,8 @@ class CursoController extends Controller
         if (isset($data)) {
             return view('cursos.edit', compact(['data', 'eixos']));
         } else {
-            $msg = "Curso";
-            $link = "curso.index";
-            return view('erros.id', compact(['msg', 'link']));
+           
+            return view('cursos.index');
         }
     }
 
@@ -94,10 +93,10 @@ class CursoController extends Controller
     public function update(Request $request, $id)
     {
 
-        $rules = [
-            'nome' => 'required|max:100|min:5',
-            'sigla' => 'required',
-            'tempo' => 'required',
+        $regras = [
+            'nome' => 'required|max:50|min:10',
+            'sigla' => 'required|max:8|min:2',
+            'tempo' => 'required|max:2|min:1',
             'eixo' => 'required',
 
         ];
@@ -107,10 +106,12 @@ class CursoController extends Controller
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
         ];
 
-        $request->validate($rules, $msgs);
+        $request->validate($regras, $msgs);
 
         $eixo = Eixo::find($request->eixo);
         $obj = Curso::find($id);
+
+        //PREENCHE OS CAMPOS COM OS DADOS DO CURSO SELECIONADO
         if (isset($eixo) && isset($obj)) {
             $obj->nome = mb_strtoupper($request->nome, 'UTF-8');
             $obj->sigla = mb_strtoupper($request->sigla, 'UTF-8');
@@ -120,9 +121,8 @@ class CursoController extends Controller
             return redirect()->route('cursos.index');
         }
 
-        $msg = "Curso ou Eixo/Área";
-        $link = "cursos.index";
-        return view('erros.id', compact(['msg', 'link']));
+        
+        return view('cursos.index');
     }
 
     /**
@@ -140,7 +140,7 @@ class CursoController extends Controller
         } else {
             $msg = "Curso";
             $link = "cursos.index";
-            return view('erros.id', compact(['msg', 'link']));
+            return view('cursos.index');
         }
 
         return redirect()->route('cursos.index');
