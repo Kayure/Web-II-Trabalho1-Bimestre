@@ -17,18 +17,28 @@
             <tbody>
                 <form action="{{ route('docencias.store') }}" method="POST">
                     @csrf
-                    @foreach($disciplinas as $disciplina)
+
                         <tr>
-                            <td scope="col" class="text-center col-md-6 ">
-                                <div class="input-group mb-3">
-                                    <input type="hidden" 
-                                        readonly class="form-control-plaintext" 
-                                        name="DISCIPLINA[]" 
-                                        value="{{$disciplina->id}}"
-                                    >
-                                    {{$disciplina->nome}}
-                                </div>
+                        <td scope="col" class="text-center">
+                                <select name="DISCIPLINA_ID_SELECTED[]"
+                                    class="form-select @if($errors->has('DISCIPLINA_ID_SELECTED')) is-invalid @endif" class="form-control ">
+                                    @foreach ($disciplinas as $item2)                                       
+                                            <option value="{{$item2->id}}" @if($item2->id == old('disciplinas')) selected="true" @endif>
+                                                {{ $item2->nome }}
+                                            </option>
+                                        @endforeach
+
+                                    
+                                </select>
+                                @if($errors->has('DISCIPLINA_ID_SELECTED'))
+                                    <div class='invalid-feedback'>
+                                        {{ $errors->first('DISCIPLINA_ID_SELECTED') }}
+                                    </div>
+                                @endif
                             </td>
+                            
+
+                        
                             <td scope="col" class="text-center">
                                 <select name="PROFESSOR_ID_SELECTED[]"
                                     class="form-select @if($errors->has('PROFESSOR_ID_SELECTED')) is-invalid @endif" class="form-control ">
@@ -47,8 +57,8 @@
                                     </div>
                                 @endif
                             </td>
+                            
                         </tr>
-                    @endforeach
             </tbody>
         </table>
         <div class="row">

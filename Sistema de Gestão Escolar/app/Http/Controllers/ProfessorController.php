@@ -29,10 +29,10 @@ class ProfessorController extends Controller
     public function validation(Request $request)
     {
 
-        $rules = [
-            'nome' => 'required|max:100|min:5',
-            'email' => 'required|unique:professores',
-            'siape' => 'required|min:7',
+        $regras = [
+            'nome' => 'required|max:100|min:10',
+            'email' => 'required|max:250|min:15|unique:professores',
+            'siape' => 'required|max:10|min:8|unique:professores',
             'eixo' => 'required',
             'radio' => 'required',
 
@@ -45,7 +45,7 @@ class ProfessorController extends Controller
             "unique" => "O campo [:attribute] pode ter apenas um único registro!"
         ];
 
-        $request->validate($rules, $msgs);
+        $request->validate($regras, $msgs);
     }
 
     public function store(Request $request)
@@ -92,7 +92,7 @@ class ProfessorController extends Controller
     {
 
 
-        $rules = [
+        $regras = [
             'nome' => 'required|max:100|min:5',
             'email' => 'required',
             'siape' => 'required',
@@ -106,13 +106,14 @@ class ProfessorController extends Controller
             "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
         ];
 
-        $request->validate($rules, $msgs);
+        $request->validate($regras, $msgs);
 
         $eixo = Eixo::find($request->eixo);
         $obj_prof = Professor::find($id);
 
         if (isset($eixo) && isset($obj_prof)) {
 
+            //PREENCHE OS CAMPOS COM OS DADOS DO PROFESSOR SELECIONADO
             $obj_prof->nome = mb_strtoupper($request->nome, 'UTF-8');
             $obj_prof->email = mb_strtolower($request->email, 'UTF-8');
             $obj_prof->siape = $request->siape;

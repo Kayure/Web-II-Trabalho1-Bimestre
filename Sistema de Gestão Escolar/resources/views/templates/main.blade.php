@@ -179,32 +179,26 @@
 
 <script type="text/javascript">
     function showInfoModal(nome) {
-
         data = JSON.parse(data)
         fields = JSON.parse(fields)
-
         $('#infoModal').modal().find('.modal-body').html("");
         for (let a = 0; a < fields.length; a++) {
             $('#infoModal').modal().find('.modal-body').append("<b>" + data[fields[a]] + "</b><br>");
         }
         $("#infoModal").modal('show');
     }
-
     function closeInfoModal() {
         $("#infoModal").modal('hide');
     }
-
     function showRemoveModal(id, nome) {
         $('#id_remove').val(id);
         $('#removeModal').modal().find('.modal-body').html("");
         $('#removeModal').modal().find('.modal-body').append("Deseja remover o registro <b class='text-danger'>'" + nome + "'</b> ?");
         $("#removeModal").modal('show');
     }
-
     function closeRemoveModal() {
         $("#removeModal").modal('hide');
     }
-
     function remove() {
         let id = $('#id_remove').val();
         let form = "form_" + $('#id_remove').val();

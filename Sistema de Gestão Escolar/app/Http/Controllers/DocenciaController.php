@@ -15,10 +15,9 @@ class DocenciaController extends Controller
     public function index()
     {
 
-        $cursos  = Curso::with(['eixo']);
+        $cursos  = Curso::all();
 
-        $disciplinas = Disciplina::with(['curso'])
-        ->orderBy('nome')->get();
+        $disciplinas = Disciplina::all();
 
         $professores = Professor::orderBy('id')->get();
 
@@ -34,7 +33,7 @@ class DocenciaController extends Controller
 
         $regras = [
             'PROFESSOR_ID_SELECTED' => 'required',
-            'DISCIPLINA' => 'required',
+            'DISCIPLINA_ID_SELECTED' => 'required',
         ];
         $msgs = [
             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
@@ -45,17 +44,26 @@ class DocenciaController extends Controller
         $request->validate($regras, $msgs);
 
         $ids_prof = $request->PROFESSOR_ID_SELECTED;
-        $disciplina = $request->DISCIPLINA;
+        $ids_disciplina = $request->DISCIPLINA_ID_SELECTED;
 
         $doc = new Docencia();
 
         for ($i = 0; $i < count($ids_prof); $i++) {
             $doc->professor_id = $ids_prof[$i];
-            $doc->disciplina_id = $disciplina[$i];
+
+            for ($i = 0; $i < count($ids_disciplina); $i++) {
+            
+            $doc->disciplina_id = $ids_disciplina[$i];
+           
+            
+        }
             $doc->save();
         }
 
-        return redirect()->route('disciplinas.index');
+        //O QUE TA ERRADO AQUI ?
+        
+
+        return redirect()->route('docencias.index');
     }
 
 
